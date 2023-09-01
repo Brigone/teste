@@ -19,4 +19,29 @@ public class ProductBO implements IProductBO {
         return productRepository.findAll();
     }
 
+    @Override
+    public Product save(Product product) {
+        return productRepository.save(product);
+    }
+
+    @Override
+    public void deleteProductById(Long id) {
+        this.productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product findById(Long id) {
+        return this.productRepository.findById(id).orElse(null);
+    }
+
+    public Product alterProduct(Product product){
+        Product productFound = this.productRepository.findById(product.getId()).orElse(null);
+        if(product != null){
+            productFound.setSku(product.getSku());
+            return this.productRepository.save(productFound);
+        }
+        return null;
+    }
+
+
 }
