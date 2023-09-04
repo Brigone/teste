@@ -1,22 +1,64 @@
-**Seja bem-vindo candidato!**
+# Store Stoom - Test CRUD
 
-Como um desenvolvedor Back-End na Stoom uma das maiores responsabilidades que você vai ter é desenvolver funcionalidades e corrigir bugs em sistemas de e-commerce de larga escala que utilizam Spring Boot. Com base nisso, precisamos de sua ajuda para construir a nossa loja Stoom, que deve conter as seguintes funcionalidades:
+This is a CRUD application project developed in Java with Spring Boot, designed to manage products with category, brand, and price information. The application provides endpoints for creating, reading, updating, and deleting products.
 
-1. Deve ser desenvolvida uma API de CRUD de produtos
-2. Os produtos devem ser enriquecidos com as informações que você julgar relevante para o funcionamento em uma loja, algumas são obrigatórias:
-    - Categorias
-    - Marca
-    - Preços
-3. Deve existir um endpoint na API para a busca de produtos que será utilizada na loja
-4. Deve existir um endpoint que lista os produtos de uma determinada Marca
-5. Deve existir um endpoint que lista os produtos de uma determinada Categoria
-6. Produtos podem ser inativados para não aparecerem na busca ou nas listagens sem a necessidade de serem deletados para poderem ser reativados posteriormente
-7. Marcas e categorias também podem ser inativados para não aparecerem na loja
+## Prerequisites
 
-**Informações relevantes**:
-- Atente-se à todos os pré-requisitos estabelecidos, porém não limite-se a eles, ideias novas ou melhorias são sempre bem-vindas :smiley:
-- Você tem total liberdade para fazer qualquer tipo de alteração em qualquer ponto do código (contanto que não alterem a maneira de execução da aplicação)
-- Se possível, adicione uma collection do Postman no repositório para conseguirmos testar o código da mesma forma que você
-- Boas práticas, legibilidade, testes e performance são alguns dos pontos que serão considerados durante a avaliação
+Before you begin, make sure you have the following prerequisites installed:
 
-**Boa sorte!**
+- [Docker](https://www.docker.com/) 
+- [Java](https://www.oracle.com/java/technologies/javase-downloads.html): Ensure that Java is installed on your machine.
+- [Maven](https://maven.apache.org/): You will need Maven to compile and run the project.
+- [Swagger](http://localhost:8080/swagger-ui/): The application uses Swagger to provide interactive documentation of endpoints, which can be accessed via the link: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/).
+
+## Database
+
+The application uses the H2 database, an in-memory database, to store data. You can access the H2 administration console using the following information:
+
+- Console URL: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+- Driver Class: org.h2.Driver
+- JDBC URL: jdbc:h2:mem:test
+- User: sa
+- Password: sa
+
+## Usage
+
+To use the application, follow the setup and execution instructions below:
+
+1. Clone this repository:
+
+   ```bash
+   git clone git@github.com:ricardossbr/teste-stoom.git
+
+
+2. Navigate to the project directory:
+
+   ```bash
+   docker network create --driver=bridge stoom-store-network
+
+
+
+3. Navigate to the project directory:
+
+   ```bash
+   cd your-project-name
+
+4. Compile and run the project using Maven:
+
+   ```bash
+    docker compose up --build
+
+5. Access the Swagger interactive documentation to explore the API endpoints:
+http://localhost:8080/swagger-ui/
+6. A `stoom-store-collection-postman.json` file is available in the root directory of the project, which is a Postman collection for testing the API endpoints.
+
+Now, you are ready to start using the CRUD application to manage products with category, brand, and price.
+
+## Contribution
+If you wish to contribute to this project, feel free to submit pull requests or report issues. Your contributions are welcome!
+
+## License
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+
+
+
