@@ -1,0 +1,18 @@
+version: '1.0'
+services:
+  app:
+    build:
+      context: .
+    container_name: $MS_CONTAINER_NAME
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - $MS_PORT:8080 # Mapeamento de porta de aplicacao
+      - $MS_DEBUG_PORT:8081 # Mapeamento de porta de depuração
+    command: "java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -jar app.jar"
+
+networks:
+  default:
+    name: stoom-store-network
+    external: true
