@@ -6,6 +6,7 @@ This is a CRUD application project developed in Java with Spring Boot, designed 
 
 Before you begin, make sure you have the following prerequisites installed:
 
+- [Docker](https://www.docker.com/) 
 - [Java](https://www.oracle.com/java/technologies/javase-downloads.html): Ensure that Java is installed on your machine.
 - [Maven](https://maven.apache.org/): You will need Maven to compile and run the project.
 - [Swagger](http://localhost:8080/swagger-ui/): The application uses Swagger to provide interactive documentation of endpoints, which can be accessed via the link: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/).
@@ -20,35 +21,6 @@ The application uses the H2 database, an in-memory database, to store data. You 
 - User: sa
 - Password: sa
 
-## Data Models
-
-### Product Class
-
-- The `Product` class represents a product with the following attributes:
-  - SKU (stock-keeping unit): string
-  - Name: string
-  - Categories: a set of `Category` objects
-  - Brand: `Brand` object
-  - Price: `Price` object
-
-### Category Class
-
-- The `Category` class represents a product category with the following attributes:
-  - Name: string
-  - Type: string
-
-### Brand Class
-
-- The `Brand` class represents a product brand with the following attribute:
-  - Name: string
-
-### Price Class
-
-- The `Price` class represents price information for a product with the following attributes:
-  - Price: double
-  - Discount: double
-  - Final Price: double (price after applying the discount)
-
 ## Usage
 
 To use the application, follow the setup and execution instructions below:
@@ -62,16 +34,23 @@ To use the application, follow the setup and execution instructions below:
 2. Navigate to the project directory:
 
    ```bash
-   cd your-project-name
+   docker network create --driver=bridge stoom-store-network
 
-3. Compile and run the project using Maven:
+
+
+3. Navigate to the project directory:
 
    ```bash
-   mvn spring-boot:run
+   cd your-project-name
 
-4. Access the Swagger interactive documentation to explore the API endpoints:
+4. Compile and run the project using Maven:
+
+   ```bash
+    docker compose up --build
+
+5. Access the Swagger interactive documentation to explore the API endpoints:
 http://localhost:8080/swagger-ui/
-5. A `stoom-store-collection-postman.json` file is available in the root directory of the project, which is a Postman collection for testing the API endpoints.
+6. A `stoom-store-collection-postman.json` file is available in the root directory of the project, which is a Postman collection for testing the API endpoints.
 
 Now, you are ready to start using the CRUD application to manage products with category, brand, and price.
 
