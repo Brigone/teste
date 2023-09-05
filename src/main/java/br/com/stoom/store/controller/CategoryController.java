@@ -55,6 +55,12 @@ public class CategoryController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping(value = "/reactivate/{id}", produces="application/json")
+    public ResponseEntity reactivate(@PathVariable String id) {
+        CategoryDTO categoryDTO = service.reactivateCategory(Long.parseLong(id));
+        return new ResponseEntity<>(categoryDTO, HttpStatus.OK);
+    }
+
     @PutMapping(value = "/{id}", produces="application/json", consumes="application/json")
     public ResponseEntity edit(@RequestBody CategoryDTO category, @PathVariable String id){
         if(category != null && id != null){

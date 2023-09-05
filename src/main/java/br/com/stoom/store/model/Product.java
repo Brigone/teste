@@ -14,16 +14,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Entity
 @Table(name="products")
 @Where(clause = "deleted=false")
-//@SQLDelete(sql = "UPDATE products SET deleted = true WHERE uuid=?")
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_sequence")
@@ -61,15 +60,6 @@ public class Product {
 
     @NotNull
     protected boolean deleted = false;
-
-
-    public static Product toModel(ProductDTO dto){
-        Product product = new Product();
-
-
-        return product;
-    }
-
 
     @PrePersist
     public void prePersist() {
