@@ -1,7 +1,9 @@
 package br.com.stoom.store.business;
 
 import br.com.stoom.store.Dto.BrandDTO;
+import br.com.stoom.store.Dto.CategoryDTO;
 import br.com.stoom.store.business.interfaces.IBrandBO;
+import br.com.stoom.store.exceptions.BrandDoesNotExitException;
 import br.com.stoom.store.model.Brand;
 import br.com.stoom.store.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +47,16 @@ public class BrandBO implements IBrandBO {
         Brand brand = this.repository.findById(id).orElse(null);
         if(brand == null) return null;
         return BrandDTO.toDto(brand);
+    }
+
+    @Override
+    public BrandDTO alterBrand(BrandDTO dto, long id) throws BrandDoesNotExitException {
+        Brand brand = this.repository.findById(id).orElse(null);
+        if(brand != null){
+            brand.setName(dto.getName());
+            this.repository.save(brand);
+            return BrandDTO.toDto(brand);
+        }
+        throw new BrandDoesNotExitException();
     }
 }
