@@ -41,7 +41,7 @@ To use the application, follow the setup and execution instructions below:
 3. Navigate to the project directory:
 
    ```bash
-   cd your-project-name
+   cd /teste-stoom
 
 4. Compile and run the project using Maven:
 
