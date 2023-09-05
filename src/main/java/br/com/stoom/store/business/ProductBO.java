@@ -35,8 +35,11 @@ public class ProductBO implements IProductBO {
     @Override
     public List<ProductDTO> findAll(){
         List<Product> products = repository.findByActiveTrue();
-        List<ProductDTO> productsDto = products.stream().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
-        return productsDto;
+        if(products != null){
+            List<ProductDTO> productsDto = products.stream().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
+            return productsDto;
+        }
+        return Collections.emptyList();
     }
 
     @Override
@@ -74,7 +77,7 @@ public class ProductBO implements IProductBO {
 
     public ProductDTO alterProduct(ProductDTO product, long id) throws ProductDoesNotExitException, BrandDoesNotExitException, CategoryDoesNotExitException {
         Product productFound = this.repository.findById(id).orElse(null);
-        if(product != null){
+        if(product != null && productFound != null){
             Set<Category> category = this.verifyCategories(product);
             productFound.setCategories(category);
             Brand brand = this.verifyBrand(product);
@@ -91,15 +94,21 @@ public class ProductBO implements IProductBO {
     @Override
     public List<ProductDTO> findProductsByCategory(long id) {
         List<Product> products = this.repository.findByCategories_id(id);
-        List<ProductDTO> dtos = products.stream().parallel().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
-        return dtos;
+        if(products != null){
+            List<ProductDTO> dtos = products.stream().parallel().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
+            return dtos;
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public List<ProductDTO> findProductsByBrand(long id) {
         List<Product> products = this.repository.findByBrand_id(id);
-        List<ProductDTO> dtos = products.stream().parallel().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
-        return dtos;
+        if(products != null){
+            List<ProductDTO> dtos = products.stream().parallel().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());
+            return dtos;
+        }
+        return Collections.emptyList();
     }
 
 
