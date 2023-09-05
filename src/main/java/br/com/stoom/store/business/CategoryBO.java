@@ -8,6 +8,7 @@ import br.com.stoom.store.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,13 +22,21 @@ public class CategoryBO implements ICategoryBO {
     @Override
     public List<CategoryDTO> findAll() {
         List<Category> categories = this.repository.findByActiveTrue();
-        return categories.stream().parallel().map(r -> CategoryDTO.toDto(r)).collect(Collectors.toList());
+        if(categories != null){
+            return categories.stream().parallel().map(r -> CategoryDTO.toDto(r)).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public CategoryDTO save(CategoryDTO category) {
-        Category savedCategory = this.repository.save(Category.toModel(category));
-        return CategoryDTO.toDto(savedCategory);
+        if(category != null){
+            Category savedCategory = this.repository.save(Category.toModel(category));
+            if(savedCategory != null) {
+                return CategoryDTO.toDto(savedCategory);
+            }
+        }
+        return null;
     }
 
     @Override
@@ -42,20 +51,34 @@ public class CategoryBO implements ICategoryBO {
 
     @Override
     public CategoryDTO findCategoryById(Long id) {
-        this.repository.findById(id);
+        Category category = this.repository.findById(id).orElse(null);
+        if(category != null){
+            return CategoryDTO.toDto(category);
+        }
         return null;
     }
 
     @Override
     public CategoryDTO alterCategory(CategoryDTO dto, Long id) throws CategoryDoesNotExitException {
         Category category = this.repository.findById(id).orElse(null);
-        if(category != null){
+        if(category != null && dto != null && id != null){
             category.setName(dto.getName());
             category.setType(dto.getType());
             this.repository.save(category);
             return CategoryDTO.toDto(category);
         }
         throw new CategoryDoesNotExitException();
+    }
+
+    @Override
+    public CategoryDTO reactivateCategory(long id) {
+        Category category = this.repository.findById(id).orElse(null);
+        if(category != null){
+            category.setActive(true);
+            category.setDeleted(true);
+            return CategoryDTO.toDto(category);
+        }
+        return null;
     }
 
 }

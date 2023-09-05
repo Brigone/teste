@@ -18,4 +18,5 @@ public interface ICategoryBO {
 
     CategoryDTO alterCategory(CategoryDTO dto, Long id) throws CategoryDoesNotExitException;
 
+    CategoryDTO reactivateCategory(long id);
 }

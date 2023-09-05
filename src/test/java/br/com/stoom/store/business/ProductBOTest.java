@@ -136,8 +136,7 @@ public class ProductBOTest {
         BrandDoesNotExitException error = Assert.assertThrows(BrandDoesNotExitException.class, () -> {
             Mockito.when(categoryRepository.findById(anyLong())).thenReturn(Optional.of(Builder.getCategory()));
             Mockito.when(brandRepository.findById(anyLong())).thenReturn(Optional.empty());
-            ProductDTO products = null;
-            products = bo.save(Builder.getProductDTO());
+            ProductDTO products = bo.save(Builder.getProductDTO());
         });
         Assert.assertEquals("This brand is empty or does not exist!", error.getMessage() );
     }
@@ -156,11 +155,22 @@ public class ProductBOTest {
     }
 
     @Test
-    public void when_call_alter_product_should_be_error() throws CategoryDoesNotExitException, BrandDoesNotExitException, ProductDoesNotExitException {
+    public void when_call_alter_product_should_be_error() {
         ProductDoesNotExitException error = Assert.assertThrows(ProductDoesNotExitException.class, () -> {
             ProductDTO products = bo.alterProduct(Builder.getProductDTO(), anyLong());
         });
         Assert.assertEquals( "This Product is empty or does not exist!", error.getMessage());
+    }
+
+
+    @Test
+    public void when_call_reactivate_product_should_be() throws ProductDoesNotExitException {
+        Mockito.when(this.repository.findById(anyLong())).thenReturn(Optional.of(Builder.getProduct()));
+        Mockito.when(this.repository.save(any(Product.class))).thenReturn(Builder.getProduct());
+        ProductDTO productDTO = bo.reActivateById(anyLong());
+        Assert.assertNotNull(productDTO);
+
+
     }
 
 }

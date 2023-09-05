@@ -1,5 +1,6 @@
 package br.com.stoom.store;
 
+import br.com.stoom.store.Dto.CategoryDTO;
 import br.com.stoom.store.Dto.ProductDTO;
 import br.com.stoom.store.model.Brand;
 import br.com.stoom.store.model.Category;
@@ -28,16 +29,6 @@ public class Builder {
         return product;
     }
 
-    public static Product getProduct2(){
-        Product product = new Product();
-        product.setName("Product 1");
-        product.setSku("123456");
-        product.setPrice(Builder.getPrice());
-        product.setCategories(Builder.getSetCategories());
-        product.setBrand(Builder.getBrand());
-        return product;
-    }
-
     public static Price getPrice(){
         Price price = new Price();
         price.setPrice(100);
@@ -52,20 +43,30 @@ public class Builder {
         category.setType("Category Type");
         return category;
     }
+    public static CategoryDTO getCategoryDTO(){
+        return CategoryDTO.toDto(Builder.getCategory());
+    }
 
-    public static Set<Category> getSetCategories(){
+    public static List<Category> getListCategories(){
         Category category1 = new Category();
+        category1.setId(1l);
         category1.setName("Category 1 Name");
         category1.setType("Category 1 Type");
 
         Category category2 = new Category();
+        category2.setId(2l);
         category2.setName("Category 2 Name");
         category2.setType("Category 2 Type");
 
         Category category3 = new Category();
+        category3.setId(3l);
         category3.setName("Category 3 Name");
         category3.setType("Category 3 Type");
-        return new HashSet<>(Arrays.asList(category1, category2, category3, category1, category1, category3, category1, category2));
+        return Arrays.asList(category1, category2, category3, category1, category1, category3, category1, category2);
+    }
+
+    public static Set<Category> getSetCategories(){
+        return new HashSet<>(Builder.getListCategories());
     }
 
     public static Brand getBrand(){
@@ -75,6 +76,9 @@ public class Builder {
         return brand;
     }
 
+    public static List<Brand> getListBrand(){
+        return Arrays.asList(Builder.getBrand(), Builder.getBrand(), Builder.getBrand());
+    }
     public static List<ProductDTO> getListProductDTO(){
         List<Product> listProduct = Builder.getListProduct();
         return listProduct.stream().map(r -> ProductDTO.toDto(r)).collect(Collectors.toList());

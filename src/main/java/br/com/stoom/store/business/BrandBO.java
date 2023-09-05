@@ -1,7 +1,6 @@
 package br.com.stoom.store.business;
 
 import br.com.stoom.store.Dto.BrandDTO;
-import br.com.stoom.store.Dto.CategoryDTO;
 import br.com.stoom.store.business.interfaces.IBrandBO;
 import br.com.stoom.store.exceptions.BrandDoesNotExitException;
 import br.com.stoom.store.model.Brand;
@@ -9,8 +8,8 @@ import br.com.stoom.store.repository.BrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,14 +21,20 @@ public class BrandBO implements IBrandBO {
     @Override
     public List<BrandDTO> findAll() {
         List<Brand> brands = this.repository.findByActiveTrue();
-        return brands.stream().parallel().map(r -> BrandDTO.toDto(r)).collect(Collectors.toList());
+        if(brands != null){
+            return brands.stream().parallel().map(r -> BrandDTO.toDto(r)).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 
     @Override
     public BrandDTO save(BrandDTO brand) {
-        Brand savedBrand = this.repository.save(Brand.toModel(brand));
-        if(savedBrand == null) return null;
-        return BrandDTO.toDto(savedBrand);
+        if(brand != null){
+            Brand savedBrand = this.repository.save(Brand.toModel(brand));
+            if(savedBrand == null) return null;
+            return BrandDTO.toDto(savedBrand);
+        }
+        return null;
     }
 
     @Override
